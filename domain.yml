@@ -1,22 +1,23 @@
 version: "3.1"
 
-intents:
-  - greet
-  - goodbye
-
 slots:
-  recipient:
+  user_name:
     type: text
     mappings:
       - type: from_llm
 
-
 responses:
-  utter_recipient:
-    - text: "Please enter your name."
-    
   utter_greet:
-    - text: "Hello, {recipient}."
+    - text: "Hi 👋 I'm your finance buddy! Need any advice or want to check your budget today?"
+    - text: "Hello! 💰 I can help you track spending, manage savings, or plan expenses. Need some tips?"
+    - text: "Hey there! 👋 Want help keeping your finances in check or planning a budget?"
+    - text: "Hi! I'm here to help with your money matters. Any finance questions for me today?"
+    - text: "Hello! 💸 I can help you track expenses, plan spending, or give financial tips. Need any help?"
+    - text: "Hey! 👋 Want a quick look at your budget or some advice on managing money?"
+    - text: "Hi there! 💰 I'm your personal finance assistant. Do you need tips, advice, or expense tracking today?"
+    - text: "Hello! 👋 Ready to see how your money is doing or get some finance guidance?"
+    - text: "Hey! 💸 I can help with budgets, expenses, or financial advice. Need any help right now?"
+    - text: "Hi! 👋 Want to check your finances, track spending, or get some money-saving tips?"
 
   utter_goodbye:
     - text: "Goodbye! Have a great day! 👋"
@@ -24,3 +25,6 @@ responses:
     - text: "See you later! Keep saving! 💸"
     - text: "Goodbye! Don’t forget to check your budget! 📝"
     - text: "Bye! Come back anytime for finance tips! 👋"
+    
+  utter_can_do_something_else:
+    - text: ""

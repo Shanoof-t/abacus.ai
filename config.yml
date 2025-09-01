@@ -7,19 +7,22 @@ assistant_id: 20250831-023742-shiny-volume
 
 language: en
 pipeline:
-- name: WhitespaceTokenizer
-- name: CountVectorsFeaturizer
-- name: LogisticRegressionClassifier
-- name: IntentBasedRouter
-  nlu_entry:
-    non_sticky: greet
-# - name: CompactLLMCommandGenerator
-#   llm:
-#     model_group: openai-gpt-4o
+# - name: WhitespaceTokenizer
+# - name: CountVectorsFeaturizer
+# - name: LogisticRegressionClassifier
+# - name: RegexEntityExtractor
+# - name: DIETClassifier
+# - name: EntitySynonymMapper
+# - name: NLUCommandAdapter
+- name: CompactLLMCommandGenerator
+  llm:
+    model_group: genai_llm
+  flow_retrieval:
+    active: false
 
 # Configuration for Rasa Core.
 policies:
 - name: FlowPolicy
-- name: MemoizationPolicy
-- name: RulePolicy
+# - name: MemoizationPolicy
+# - name: RulePolicy
 # - name: IntentlessPolicy
