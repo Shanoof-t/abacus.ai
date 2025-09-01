@@ -49,17 +49,17 @@ action_endpoint:
 #nlg:
 #   type: rephrase
 
+nlg:
+  type: rephrase
+  llm:
+    model_group: genai_llm
+
+
 model_groups:
   - id: genai_llm
     models:
       - provider: gemini
         model: gemini-2.5-flash
-        request_timeout: 7
         max_tokens: 256
-        api_key: ${GEMINI_API_KEY}
-  - id: gemini_embedding
-    models:
-      - provider: gemini
-        model: gemini-2.5-flash 
         api_key: ${GEMINI_API_KEY}
 

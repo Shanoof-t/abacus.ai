@@ -1,16 +1,15 @@
 flows:
   greet:
-    description: Greet the user when they start a conversation.
+    description: Triggered when a user starts a conversation or says hello. The assistant greets the user warmly and introduces its finance-related capabilities.
     steps:
       - action: utter_greet
-        next: END
+
   conversation_end:
-    description: end the conversation.
+    description: Triggered when the user wants to end the conversation. The assistant responds politely and concludes the interaction, leaving a friendly impression.
     steps:
       - action: utter_goodbye
-        next: END
-  pattern_completed:
-    description: Completion of a user's flow
+
+  finance_question:
+    description: Handles finance or money knowledge questions from the user, providing clear, accessible, and friendly financial information or advice.
     steps:
-     - action: utter_can_do_something_else
-       next: END
+      - action: utter_finance_response

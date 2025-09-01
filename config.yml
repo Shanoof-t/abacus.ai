@@ -7,6 +7,11 @@ assistant_id: 20250831-023742-shiny-volume
 
 language: en
 pipeline:
+- name: CompactLLMCommandGenerator
+  llm:
+    model_group: genai_llm
+  flow_retrieval:
+    active: false
 # - name: WhitespaceTokenizer
 # - name: CountVectorsFeaturizer
 # - name: LogisticRegressionClassifier
@@ -14,11 +19,7 @@ pipeline:
 # - name: DIETClassifier
 # - name: EntitySynonymMapper
 # - name: NLUCommandAdapter
-- name: CompactLLMCommandGenerator
-  llm:
-    model_group: genai_llm
-  flow_retrieval:
-    active: false
+
 
 # Configuration for Rasa Core.
 policies:
