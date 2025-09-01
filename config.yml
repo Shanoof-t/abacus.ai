@@ -1,0 +1,25 @@
+# The config recipe.
+recipe: default.v1
+
+# The assistant project unique identifier
+# This default value must be replaced with a unique assistant name within your deployment
+assistant_id: 20250831-023742-shiny-volume
+
+language: en
+pipeline:
+- name: WhitespaceTokenizer
+- name: CountVectorsFeaturizer
+- name: LogisticRegressionClassifier
+- name: IntentBasedRouter
+  nlu_entry:
+    non_sticky: greet
+# - name: CompactLLMCommandGenerator
+#   llm:
+#     model_group: openai-gpt-4o
+
+# Configuration for Rasa Core.
+policies:
+- name: FlowPolicy
+- name: MemoizationPolicy
+- name: RulePolicy
+# - name: IntentlessPolicy

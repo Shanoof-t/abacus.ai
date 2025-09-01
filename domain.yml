@@ -1,0 +1,26 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+
+slots:
+  recipient:
+    type: text
+    mappings:
+      - type: from_llm
+
+
+responses:
+  utter_recipient:
+    - text: "Please enter your name."
+    
+  utter_greet:
+    - text: "Hello, {recipient}."
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day! 👋"
+    - text: "Bye! Hope your finances stay on track! 💰"
+    - text: "See you later! Keep saving! 💸"
+    - text: "Goodbye! Don’t forget to check your budget! 📝"
+    - text: "Bye! Come back anytime for finance tips! 👋"

@@ -1,0 +1,7 @@
+flows:
+  greet:
+    description: Greet the user when they start a conversation.
+    steps:
+      - collect: recipient
+        description: collect user name for response
+      - action: utter_greet
