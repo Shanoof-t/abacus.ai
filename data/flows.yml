@@ -12,4 +12,4 @@ flows:
   finance_question:
     description: Handles finance or money knowledge questions from the user, providing clear, accessible, and friendly financial information or advice.
     steps:
-      - action: utter_finance_response
+      - action: action_gemini_response

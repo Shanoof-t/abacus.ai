@@ -6,6 +6,9 @@ slots:
     mappings:
       - type: from_llm
 
+actions:
+  - action_gemini_response
+
 responses:
   utter_greet:
     - text: "Hi 👋 I'm your finance buddy! Need any advice or want to check your budget today?"
