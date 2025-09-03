@@ -1,0 +1,144 @@
+// # This file contains your custom actions which can be used to run
+// # custom Python code.
+
+// from typing import Any, Text, Dict, List
+// from rasa_sdk import Action, Tracker
+// from rasa_sdk.executor import CollectingDispatcher
+// from rasa_sdk.events import UserUtteranceReverted
+// import google.generativeai as genai
+// import os
+
+// class ActionGeminiResponse(Action):
+//     """Custom action that calls Gemini AI for finance responses"""
+    
+//     def name(self) -> Text:
+//         """Unique identifier of the action"""
+//         return "action_gemini_response"
+    
+//     def _get_conversation_history(self, tracker: Tracker, max_messages: int = 6) -> str:
+//         """Extract conversation history from tracker"""
+//         history = []
+        
+//         # Get the last few events from the tracker
+//         events = list(tracker.events)
+        
+//         # Filter for user messages and bot responses
+//         for event in events[-max_messages*2:]:  # Get more events to filter from
+//             if event.get('event') == 'user':
+//                 history.append(f"User: {event.get('text', '')}")
+//             elif event.get('event') == 'bot':
+//                 history.append(f"Assistant: {event.get('text', '')}")
+        
+//         # Return the last few exchanges, or empty string if no history
+//         return '\n'.join(history[-max_messages:]) if history else ""
+    
+//     def run(self, dispatcher: CollectingDispatcher,
+//             tracker: Tracker,
+//             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+//         """Executes the action"""
+        
+//         try:
+//             # Get the user's current message
+//             user_message = tracker.latest_message.get('text')
+            
+//             # Get conversation history
+//             conversation_history = self._get_conversation_history(tracker)
+            
+//             # Configure Gemini with your API key
+//             api_key = os.getenv('GEMINI_API_KEY')
+//             if not api_key:
+//                 dispatcher.utter_message(text="Sorry, I'm not configured properly. Please contact support.")
+//                 return []
+                
+//             genai.configure(api_key=api_key)
+            
+//             # Create the exact prompt format you wanted
+//             prompt = f"""The following is a conversation with an AI assistant built for a personal finance tracker.
+// The assistant can help the user with financial guidance, advice, money management tips, budgeting rules, and general finance-related questions. It is helpful, creative, clever, and very friendly. The assistant also keeps small talk light and engaging, making the user feel comfortable while discussing finance topics.
+// The assistant should provide advice, tips, or general knowledge about finance, budgeting, saving, and spending.
+// The assistant should respond in a friendly, approachable, and conversational tone.
+// If a user question requires database access or real-time personal finance data, the assistant will not handle it; only general advice and guidance are in scope for this prompt.
+// The assistant can explain complex finance concepts in simple terms, provide best practices, and offer actionable tips where appropriate.
+
+// Context / previous conversation with the user:
+// {conversation_history}
+
+// Current user input: {user_message}
+
+// Suggested AI Response:"""
+            
+//             # Call Gemini (same model as your original code)
+//             model = genai.GenerativeModel('gemini-2.5-flash')
+//             response = model.generate_content(prompt)
+            
+//             # Send the response back to the user
+//             if response and response.text:
+//                 dispatcher.utter_message(text=response.text)
+//             else:
+//                 dispatcher.utter_message(text="Sorry, I couldn't generate a response. Please try again.")
+                
+//         except Exception as e:
+//             # If anything goes wrong, show a friendly error message
+//             print(f"Error in Gemini action: {str(e)}")  # This will show in your terminal
+//             dispatcher.utter_message(text="Sorry, I'm having trouble right now. Please try again in a moment.")
+        
+//         return []
+
+
+// class ActionDefaultFallback(Action):
+//     """Custom fallback action that also uses Gemini AI"""
+    
+//     def name(self) -> Text:
+//         return "action_default_fallback"
+    
+//     def run(self, dispatcher: CollectingDispatcher,
+//             tracker: Tracker,
+//             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+//         """Handle fallback by using Gemini AI"""
+        
+//         try:
+//             # Get the user's message
+//             user_message = tracker.latest_message.get('text')
+            
+//             # Configure Gemini with your API key
+//             api_key = os.getenv('GEMINI_API_KEY')
+//             if not api_key:
+//                 dispatcher.utter_message(text="I didn't understand that. Could you please rephrase?")
+//                 return [UserUtteranceReverted()]
+                
+//             genai.configure(api_key=api_key)
+            
+//             # Modified prompt for fallback - includes off-topic handling
+//             prompt = f"""The following is a conversation with an AI assistant built for a personal finance tracker.
+// The assistant can help with financial guidance, money management, budgeting, and general finance questions.
+// However, the assistant can also engage in light conversation on other topics in a friendly way while gently steering back to finance when appropriate.
+
+// If the user's question is completely off-topic (not about finance), the assistant should:
+// 1. Acknowledge the question politely
+// 2. Provide a brief, helpful response if appropriate
+// 3. Gently redirect to finance topics
+
+// The assistant should be helpful, creative, clever, and very friendly.
+
+// User input: {user_message}
+// AI Response:"""
+            
+//             # Call Gemini
+//             model = genai.GenerativeModel('gemini-2.5-flash')
+//             response = model.generate_content(prompt)
+            
+//             # Send the response back to the user
+//             if response and response.text:
+//                 dispatcher.utter_message(text=response.text)
+//             else:
+//                 dispatcher.utter_message(text="I didn't quite catch that. Could you try asking in a different way?")
+                
+//         except Exception as e:
+//             print(f"Error in fallback action: {str(e)}")
+//             dispatcher.utter_message(text="I didn't understand that. Could you please rephrase your question?")
+        
+//         return [UserUtteranceReverted()]
+
+
+
+
